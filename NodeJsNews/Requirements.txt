@@ -1,0 +1,2 @@
+npm i express mongoose
+npm install swagger-ui-express yamljs
