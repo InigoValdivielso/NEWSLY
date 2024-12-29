@@ -2,8 +2,40 @@ const express = require('express')
 const router = express.Router()
 const Noticia = require('../models/noticia')
 const mongoose = require('mongoose')
+const { fetchNews } = require('../../NewsAPI/newsService')
 
 module.exports = router
+
+router.post('/importar', async (req, res) => {
+    try {
+        const { categoria, idioma, fechaInicio, fechaFin } = req.body;
+        const noticias = await fetchNews(categoria, idioma, fechaInicio, fechaFin);
+        
+        console.log('Noticias importadas:', noticias.length);
+        console.log('Noticias:', noticias[0]);
+        // Guardar las noticias en la base de datos
+        for (const noticia of noticias) {
+            const noticiaCompleta = {
+                titulo: noticia.title,  
+                categoria: categoria,
+                idioma: idioma, 
+                fuente: noticia.source.name,
+                autor: noticia.author,
+                fecha: noticia.publishedAt,
+                url: noticia.url  
+            }
+            const existe = await Noticia.findOne({ url: noticia.url });
+            if (!existe) {
+                const nuevaNoticia = new Noticia(noticiaCompleta);
+                await nuevaNoticia.save();
+            }
+        }
+
+        res.json({ message: 'Noticias importadas con éxito' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+})
 
 // Cogemos todas las noticias
 router.get('/', async (req, res) => {
@@ -46,10 +78,26 @@ router.delete('/:id', deleteNoticia, (req, res) => {
     res.send("Noticia eliminada")
 })
 
+// Borramos todas las noticias por categoria
+router.delete('/categoria/:categoria', async (req, res) => {
+    try {
+        const categoria = req.params.categoria
+        const noticias = await Noticia.find({categoria: categoria})
+    
+        if (noticias.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron noticias con la categoría proporcionada' });
+        }
+        await Noticia.deleteMany({categoria: categoria})
+        res.json({ message: `${noticias.length} Noticias eliminadas con éxito` });
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+})
+
 
 async function getNoticiasFiltradas(req, res, next) {
     try {
-        const { categoria, fechaInicio, fechaFin, autor, idioma } = req.query;
+        const { categoria, fechaInicio, fechaFin, idioma } = req.query;
 
         // Construir la consulta dinámicamente
         const query = {};
@@ -60,9 +108,6 @@ async function getNoticiasFiltradas(req, res, next) {
         }
         if (idioma) {
             query.idioma = new RegExp(idioma, 'i'); 
-        }
-        if (autor) {
-            query.autor = new RegExp(autor, 'i'); 
         }
         if (fechaInicio || fechaFin) {
             query.fecha = {};

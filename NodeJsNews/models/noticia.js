@@ -24,7 +24,7 @@ const noticiaSchema = new mongoose.Schema({
     },
     autor: {
         type: String,
-        required: true
+        
     },
     idioma: {
         type: String,
