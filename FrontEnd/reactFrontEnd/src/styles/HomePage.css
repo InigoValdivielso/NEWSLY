@@ -1,0 +1,32 @@
+@media (max-width: 768px) {
+    header h1 {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+  
+    header nav {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    header nav a,
+    header nav button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .card {
+      margin-bottom: 15px;
+    }
+  
+    main section {
+      padding: 10px;
+    }
+  
+    footer {
+      padding: 15px;
+      font-size: 0.9rem;
+    }
+}
+  

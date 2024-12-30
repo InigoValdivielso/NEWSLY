@@ -1,0 +1,89 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.navbar {
+    background-color: #343a40;
+    padding: 15px;
+}
+
+/* Estilos para dispositivos pequeños */
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+
+    .accordion-button {
+        font-size: 1rem;
+    }
+
+    .card {
+        margin-bottom: 10px;
+    }
+
+    .row-cols-1 .col {
+        margin-bottom: 10px;
+    }
+
+    .card-body {
+        font-size: 0.9rem;
+    }
+
+    button {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+}
+
+/* Estilos para pantallas medianas (tablets) */
+@media (min-width: 576px) and (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.8rem;
+    }
+
+    .accordion-button {
+        font-size: 1.1rem;
+    }
+
+    .card-body {
+        font-size: 1rem;
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}
+
+/* Estilos para pantallas grandes (escritorios y pantallas mayores) */
+@media (min-width: 768px) {
+    .navbar-brand {
+        font-size: 2rem;
+    }
+
+    .accordion-button {
+        font-size: 1.2rem;
+    }
+
+    .card-body {
+        font-size: 1rem;
+    }
+
+    .row-cols-md-2 .col {
+        margin-bottom: 20px;
+    }
+
+    button {
+        font-size: 1.1rem;
+        padding: 12px 25px;
+    }
+}
+
+/* Estilos para pantallas muy grandes */
+@media (min-width: 1200px) {
+    .row-cols-lg-3 .col {
+        margin-bottom: 30px;
+    }
+}

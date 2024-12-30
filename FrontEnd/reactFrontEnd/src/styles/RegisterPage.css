@@ -1,0 +1,164 @@
+.register-page {
+    background-image: url('../assets/images/fondoRegistre.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    /* Altura mínima de la pantalla */
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+
+.card {
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: white;
+}
+
+/* Aseguramos que el formulario no cause desbordamiento */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.form-control {
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.form-check-label {
+    font-size: 0.9rem;
+}
+
+button {
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 12px;
+    border-radius: 5px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-primary {
+    color: #007bff;
+}
+
+/* Estilos para dispositivos pequeños */
+@media (max-width: 576px) {
+    .register-page {
+        padding: 10px;
+    }
+
+    .card {
+        width: 100%;
+        height: auto;
+        margin-top: 10px;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .form-label {
+        font-size: 0.9rem;
+    }
+
+    .form-control {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 10px;
+    }
+}
+
+/* Estilos para pantallas medianas (tablets y pantallas de mayor tamaño) */
+@media (min-width: 576px) and (max-width: 768px) {
+    .register-page {
+        padding: 20px;
+    }
+
+    .card {
+        width: 100%;
+        height: auto;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .form-label {
+        font-size: 1rem;
+    }
+
+    .form-control {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    button {
+        font-size: 1.1rem;
+        padding: 12px;
+    }
+}
+
+/* Estilos para pantallas grandes (escritorios y pantallas mayores) */
+@media (min-width: 768px) {
+    .register-page {
+        padding: 30px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+        padding: 25px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .form-label {
+        font-size: 1rem;
+    }
+
+    .form-control {
+        font-size: 1rem;
+        padding: 12px;
+    }
+
+    button {
+        font-size: 1.2rem;
+        padding: 14px;
+    }
+}

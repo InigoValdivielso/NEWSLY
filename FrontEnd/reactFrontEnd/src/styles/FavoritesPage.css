@@ -1,0 +1,114 @@
+/* Estilos para dispositivos pequeños */
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+
+    .accordion-button {
+        font-size: 1rem;
+    }
+
+    .card {
+        margin-bottom: 10px;
+    }
+
+    .row-cols-1 .col {
+        margin-bottom: 10px;
+    }
+
+    .card-body {
+        font-size: 0.9rem;
+    }
+
+    button {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+
+    .d-flex {
+        flex-direction: column;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+    }
+
+    .card-subtitle {
+        font-size: 0.9rem;
+    }
+}
+
+/* Estilos para pantallas medianas (tablets) */
+@media (min-width: 576px) and (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.8rem;
+    }
+
+    .accordion-button {
+        font-size: 1.1rem;
+    }
+
+    .card-body {
+        font-size: 1rem;
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+
+    .d-flex {
+        flex-direction: column;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+    }
+
+    .card-subtitle {
+        font-size: 1rem;
+    }
+}
+
+/* Estilos para pantallas grandes (escritorios y pantallas mayores) */
+@media (min-width: 768px) {
+    .navbar-brand {
+        font-size: 2rem;
+    }
+
+    .accordion-button {
+        font-size: 1.2rem;
+    }
+
+    .card-body {
+        font-size: 1rem;
+    }
+
+    .row-cols-md-2 .col {
+        margin-bottom: 20px;
+    }
+
+    button {
+        font-size: 1.1rem;
+        padding: 12px 25px;
+    }
+
+    .d-flex {
+        flex-direction: row;
+    }
+
+    .card-title {
+        font-size: 1.3rem;
+    }
+
+    .card-subtitle {
+        font-size: 1.1rem;
+    }
+}
+
+/* Estilos para pantallas muy grandes */
+@media (min-width: 1200px) {
+    .row-cols-lg-3 .col {
+        margin-bottom: 30px;
+    }
+}

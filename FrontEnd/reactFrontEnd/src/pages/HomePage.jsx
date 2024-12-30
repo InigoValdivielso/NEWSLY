@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "../components/button"
+import '../styles/HomePage.css';
 
 export default function Home() {
   return (
@@ -8,8 +9,12 @@ export default function Home() {
         <div className="container d-flex justify-content-between align-items-center">
           <h1 className="fs-1 font-weight-bold">Newsly</h1>
           <nav>
-            <Button variant="light" className="me-2">Iniciar sesión</Button>
-            <Button variant="light">Registrarse</Button>
+            <Link to="/login">
+              <Button variant="light" className="me-2">Iniciar sesión</Button>
+            </Link>
+            <Link to="/register">
+              <Button variant="light">Registrarse</Button>
+            </Link>
           </nav>
         </div>
       </header>
@@ -20,7 +25,9 @@ export default function Home() {
           <p className="lead text-muted mb-4">
             Tu buscador de noticias personalizadas
           </p>
-          <Button size="lg" variant="primary">Comienza ahora</Button>
+          <Link to="/login">
+            <Button size="lg" variant="primary">Comienza ahora</Button>
+          </Link>
         </section>
 
         <section className="row row-cols-1 row-cols-md-3 g-4 mb-5">
@@ -52,7 +59,9 @@ export default function Home() {
 
         <section className="text-center">
           <h2 className="h3 font-weight-bold mb-4">¿Listo para estar mejor informado?</h2>
-          <Button size="lg" variant="primary">Únete a Newsly</Button>
+          <Link to="/register">
+            <Button size="lg" variant="primary">Únete a Newsly</Button>
+          </Link>
         </section>
       </main>
 
