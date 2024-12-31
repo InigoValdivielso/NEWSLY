@@ -4,6 +4,11 @@ from routes.user import user
 from dotenv import load_dotenv
 from routes.auth import auth_routes
 from authlib.integrations.starlette_client import OAuth
+from fastapi.middleware.cors import CORSMiddleware
+
+
+
+
 
 
 app = FastAPI(
@@ -24,7 +29,14 @@ app = FastAPI(
     }]
 )
 #app.add_middleware(SessionMiddleware, seceret_key="")
-
+# Configurar CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite todos los orígenes
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos los métodos
+    allow_headers=["*"],  # Permite todos los encabezados
+)
 oauth = OAuth()
 oauth.register(
     name="google",

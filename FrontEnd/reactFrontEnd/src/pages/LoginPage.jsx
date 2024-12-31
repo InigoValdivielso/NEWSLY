@@ -1,17 +1,37 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Importar useNavigate
 import logoGoogle from "../assets/images/googleLogo.png";
 import "../styles/LoginPage.css";
+import { login } from "../services/api.jsx"; // Importar la función login desde api.jsx
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState(""); // Para mostrar mensajes al usuario
+  const navigate = useNavigate(); // Hook para redirigir
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí iría la lógica para manejar el inicio de sesión
-    console.log("Iniciar sesión con:", { username, password });
+    try {
+      const data = await login(username, password); // Llamada a la función login
+      setMessage("Inicio de sesión exitoso.");
+      console.log("Datos del usuario:", data);
+
+      // Verificar si la respuesta es exitosa y redirigir al usuario
+      if (data.status === "success") {
+        // Redirigir a la página principal (main)
+        navigate("/home");
+      } else {
+        setMessage("Credenciales incorrectas.");
+      }
+    } catch (error) {
+      setMessage(
+        error.response?.data?.message || "Error al iniciar sesión. Intenta nuevamente."
+      );
+      console.error("Error en el inicio de sesión:", error);
+    }
   };
+
   const handleGoogleLogin = () => {
     console.log("Iniciar sesión con Google");
     // Aquí iría la lógica para manejar el inicio de sesión con Google
@@ -34,6 +54,11 @@ export default function LoginPage() {
             <h3>Iniciar Sesión en Newsly</h3>
           </div>
           <div className="card-body">
+            {message && (
+              <div className="alert alert-info text-center" role="alert">
+                {message}
+              </div>
+            )}
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="username" className="form-label">
