@@ -15,11 +15,11 @@ export default function LoginPage() {
     try {
       const data = await login(username, password); // Llamada a la función login
       setMessage("Inicio de sesión exitoso.");
-      console.log("Datos del usuario:", data);
 
       // Verificar si la respuesta es exitosa y redirigir al usuario
       if (data.status === "success") {
-        // Redirigir a la página principal (main)
+        // Redirigir a la página principal (home)
+        sessionStorage.setItem('token', data.token) // Guardar el token 
         navigate("/home");
       } else {
         setMessage("Credenciales incorrectas.");

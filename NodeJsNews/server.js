@@ -5,6 +5,7 @@ const app = express()
 const mongoose = require('mongoose')
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
+const cors = require('cors');
 
 mongoose.connect(process.env.DATABASE_URL)
 const db = mongoose.connection
@@ -13,7 +14,11 @@ db.once('open', () => console.log('Connected to database'))
 
 
 app.use(express.json())
-
+app.use(cors({
+    origin: 'http://localhost:5173', // Cambia esto a la URL de tu frontend
+    methods: ['GET', 'POST'],
+  }));
+  
 
 const newsRouter = require('./routes/noticias')
 app.use('/news', newsRouter)

@@ -1,172 +1,80 @@
-import { useState, useEffect } from 'react';
-import { Button, Form, InputGroup, Dropdown, DropdownButton, Card, Row, Col, Container, Navbar, Nav, Accordion } from 'react-bootstrap';
-import { CalendarIcon, StarIcon, LogOutIcon } from 'lucide-react';
-import { format } from "date-fns";
 import { Link } from "react-router-dom";
-import "../styles/MainPage.css";
+import { Button } from "../components/button"
+import '../styles/MainPage.css';
 
-// Datos de ejemplo para las noticias
-const allNews = Array(50).fill(null).map((_, i) => ({
-  id: i + 1,
-  title: `Noticia ${i + 1}`,
-  description: `Esta es la descripción de la noticia ${i + 1}. Contiene información relevante sobre el tema.`,
-  category: ['Política', 'Economía', 'Tecnología', 'Deportes', 'Cultura'][Math.floor(Math.random() * 5)],
-  date: new Date(2023, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1).toISOString(),
-  language: ['Español', 'Inglés', 'Francés'][Math.floor(Math.random() * 3)],
-}));
-
-export default function MainPage() {
-  const [category, setCategory] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [language, setLanguage] = useState('all');
-  const [news, setNews] = useState(allNews.slice(0, 10));
-  const [page, setPage] = useState(1);
-
-  const filterNews = () => {
-    let filtered = allNews;
-
-    if (category) {
-      filtered = filtered.filter(item =>
-        item.category.toLowerCase().includes(category.toLowerCase())
-      );
-    }
-
-    if (startDate && endDate) {
-      filtered = filtered.filter(item => {
-        const itemDate = new Date(item.date);
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        return itemDate >= start && itemDate <= end;
-      });
-    }
-
-    if (language && language !== 'all') {
-      filtered = filtered.filter(item => item.language === language);
-    }
-
-    setNews(filtered.slice(0, 10));
-    setPage(1);
-  };
-
-  const loadMore = () => {
-    const nextPage = page + 1;
-    const newNews = allNews.slice(0, nextPage * 10);
-    setNews(newNews);
-    setPage(nextPage);
-  };
-
-  useEffect(() => {
-    filterNews();
-  }, [category, startDate, endDate, language]);
-
+export default function Home() {
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      {/* Navbar con fondo azul y fijo en la parte superior */}
-      <Navbar bg="primary" variant="dark" expand="lg" className="fixed-top">
-        <Container>
-          <Navbar.Brand href="#home" className="fs-3">Noticias</Navbar.Brand>
-          <Nav className="ms-auto">
-            <Link to="/favorites">
-                <Button variant="outline-light" className="d-flex align-items-center">
-                <StarIcon className="mr-2" />
-                Favoritas
-                </Button>
+    <div className="min-vh-100 d-flex flex-column">
+      <header className="bg-primary text-light py-4">
+        <div className="container d-flex justify-content-between align-items-center">
+          <h1 className="fs-1 font-weight-bold">Newsly</h1>
+          <nav>
+            <Link to="/login">
+              <Button variant="light" className="me-2">Iniciar sesión</Button>
             </Link>
-            <Link to="/">
-                <Button variant="outline-light" className="d-flex align-items-center ms-2">
-                <LogOutIcon className="mr-2" />
-                    Logout
-                </Button>
+            <Link to="/register">
+              <Button variant="light">Registrarse</Button>
             </Link>
-          </Nav>
-        </Container>
-      </Navbar>
+          </nav>
+        </div>
+      </header>
 
-      {/* Contenedor de contenido con espacio para el navbar fijo */}
-      <Container className="mx-auto p-4" style={{ marginTop: '80px', flexGrow: 1, overflowY: 'auto' }}>
-        {/* Filtro en acordeón */}
-        <Accordion className="mb-5">
-          <Accordion.Item eventKey="0">
-            <Accordion.Header>Filtros</Accordion.Header>
-            <Accordion.Body>
-              <Form>
-                <Form.Group controlId="category" className="mb-3">
-                  <Form.Label>Categoría</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Escribe una categoría"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                  />
-                </Form.Group>
+      <main className="flex-grow-1 container py-8">
+        <section className="text-center mb-5">
+          <h2 className="h1 font-weight-bold mb-4 mt-4">Bienvenido a Newsly</h2>
+          <p className="lead text-muted mb-4">
+            Tu buscador de noticias personalizadas
+          </p>
+          <Link to="/login">
+            <Button size="lg" variant="primary">Comienza ahora</Button>
+          </Link>
+        </section>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Rango de fechas</Form.Label>
-                  <InputGroup>
-                    <Form.Control
-                      type="date"
-                      value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
-                    />
-                    <span className="mx-2"></span>
-                    <Form.Control
-                      type="date"
-                      value={endDate}
-                      onChange={(e) => setEndDate(e.target.value)}
-                    />
-                  </InputGroup>
-                </Form.Group>
-
-                <Form.Group className="mb-3">
-                  <Form.Label>Idioma</Form.Label>
-                  <DropdownButton
-                    id="language-dropdown"
-                    title={language === 'all' ? 'Todos' : language}
-                    onSelect={setLanguage}
-                    variant="outline-secondary"
-                    className="w-100"
-                  >
-                    <Dropdown.Item eventKey="all">Todos</Dropdown.Item>
-                    <Dropdown.Item eventKey="Español">Español</Dropdown.Item>
-                    <Dropdown.Item eventKey="Inglés">Inglés</Dropdown.Item>
-                    <Dropdown.Item eventKey="Francés">Francés</Dropdown.Item>
-                  </DropdownButton>
-                </Form.Group>
-
-                <Button variant="primary" onClick={filterNews} className="w-100">
-                  Filtrar
-                </Button>
-              </Form>
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
-
-        {/* Noticias */}
-        <Row className="row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-          {news.map((item) => (
-            <Col key={item.id}>
-              <Card className="h-100">
-                <Card.Header>
-                  <Card.Title>{item.title}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">
-                    {format(new Date(item.date), "PP")} - {item.category} - {item.language}
-                  </Card.Subtitle>
-                </Card.Header>
-                <Card.Body>
-                  <p>{item.description}</p>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-
-        {news.length < allNews.length && (
-          <div className="mt-4 text-center">
-            <Button onClick={loadMore} variant="primary">Cargar más</Button>
+        <section className="row row-cols-1 row-cols-md-3 g-4 mb-5">
+          <div className="col">
+            <div className="card shadow-lg">
+              <div className="card-body">
+                <h3 className="h5 font-weight-semibold mb-2">Personalización</h3>
+                <p>Recibe noticias adaptadas a tus intereses y preferencias.</p>
+              </div>
+            </div>
           </div>
-        )}
-      </Container>
+          <div className="col">
+            <div className="card shadow-lg">
+              <div className="card-body">
+                <h3 className="h5 font-weight-semibold mb-2">Diversidad</h3>
+                <p>Accede a una amplia variedad de fuentes de noticias confiables.</p>
+              </div>
+            </div>
+          </div>
+          <div className="col">
+            <div className="card shadow-lg">
+              <div className="card-body">
+                <h3 className="h5 font-weight-semibold mb-2">Actualización</h3>
+                <p>Mantente informado con las últimas noticias en tiempo real.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="text-center">
+          <h2 className="h3 font-weight-bold mb-4">¿Listo para estar mejor informado?</h2>
+          <Link to="/register">
+            <Button size="lg" variant="primary">Únete a Newsly</Button>
+          </Link>
+        </section>
+      </main>
+
+      <footer className="bg-muted py-4">
+        <div className="container text-center">
+          <p>&copy; 2023 Newsly. Todos los derechos reservados.</p>
+          <nav className="mt-3">
+            <Link href="/about" className="text-primary mx-2">Acerca de</Link>
+            <Link href="/privacy" className="text-primary mx-2">Privacidad</Link>
+            <Link href="/terms" className="text-primary mx-2">Términos</Link>
+          </nav>
+        </div>
+      </footer>
     </div>
-  );
+  )
 }

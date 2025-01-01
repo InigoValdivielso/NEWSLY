@@ -9,10 +9,10 @@ import ScrollToTop from './components/ScrollToTop';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path='/' element={<HomePage />}/>
+      <Route path='/' element={<MainPage />}/>
       <Route path='/login' element={<LoginPage />}/>
       <Route path='/register' element={<ScrollToTop><RegisterPage /></ScrollToTop>}/>
-      <Route path='/home' element={<MainPage />}/>
+      <Route path='/home' element={<HomePage />}/>
       <Route path='/favorites' element={<FavoritesPage />}/>
     </>
       

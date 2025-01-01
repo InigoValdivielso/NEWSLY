@@ -4,6 +4,8 @@ const Noticia = require('../models/noticia')
 const mongoose = require('mongoose')
 const { fetchNews } = require('../../NewsAPI/newsService')
 
+const axios = require("axios")
+
 module.exports = router
 
 router.post('/importar', async (req, res) => {
@@ -48,7 +50,7 @@ router.get('/', async (req, res) => {
 })
 
 // Busqueda personalizada
-router.get('/filtro', getNoticiasFiltradas, (req, res) => {
+router.post('/filtro', getNoticiasFiltradas, (req, res) => {
     res.send(res.noticia)
 })
 
@@ -97,40 +99,65 @@ router.delete('/categoria/:categoria', async (req, res) => {
 
 async function getNoticiasFiltradas(req, res, next) {
     try {
-        const { categoria, fechaInicio, fechaFin, idioma } = req.query;
+        const { categoria, fechaInicio, fechaFin, idioma } = req.body;
 
         // Construir la consulta dinámicamente
         const query = {};
 
-        // Agregar parámetros si están presentes
         if (categoria) {
-            query.categoria = new RegExp(categoria, 'i'); 
+            query.categoria = new RegExp(categoria, 'i');
         }
         if (idioma) {
-            query.idioma = new RegExp(idioma, 'i'); 
+            query.idioma = new RegExp(idioma, 'i');
         }
         if (fechaInicio || fechaFin) {
             query.fecha = {};
             if (fechaInicio) {
-                query.fecha.$gte = new Date(fechaInicio); 
+                query.fecha.$gte = new Date(fechaInicio);
             }
             if (fechaFin) {
-                query.fecha.$lte = new Date(fechaFin); 
+                query.fecha.$lte = new Date(fechaFin);
             }
         }
 
-        
         const noticias = await Noticia.find(query);
 
         if (noticias.length === 0) {
-            return res.status(404).json({ message: 'No se encontraron noticias con los criterios proporcionados' });
+            console.log("No se encontraron noticias. Intentando importar...");
+
+            const importarParams = { categoria, idioma, fechaInicio, fechaFin };
+            const url = `http://localhost:3000/news/importar`;
+
+            try {
+                // Llamar a la función de importación
+                const importarResponse = await axios.post(url, importarParams);
+
+                if (importarResponse.data.message === "Noticias importadas con éxito") {
+                    // Volver a buscar las noticias después de importar
+                    const noticiasActualizadas = await Noticia.find(query);
+                    return res.json({
+                        message: "Noticias no encontradas localmente. Noticias importadas con éxito.",
+                        importarResult: importarResponse.data,
+                        noticias: noticiasActualizadas,
+                    });
+                } else {
+                    return res.json({
+                        message: "No se pudieron importar las noticias.",
+                        importarResult: importarResponse.data,
+                    });
+                }
+            } catch (err) {
+                return res.status(500).json({ message: err.message });
+            }
         }
 
-        res.json(noticias);
+        return res.json(noticias); // Enviar las noticias encontradas
     } catch (err) {
         return res.status(500).json({ message: err.message });
     }
 }
+
+
 
 async function deleteNoticia(req, res) {
     try {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { data } from 'react-router-dom';
 
 // Configuración base de Axios
 const api = axios.create({
@@ -155,7 +156,7 @@ export const importarNoticias = async (data, token) => {
 // Obtener todas las noticias
 export const getNoticias = async () => {
   try {
-      const response = await api.get('/noticias');
+      const response = await api.get('express/news');
       return response.data; // Lista de noticias
   } catch (error) {
       console.error('Error al obtener las noticias:', error.response?.data || error.message);
@@ -165,13 +166,21 @@ export const getNoticias = async () => {
 
 // Filtrar noticias
 export const getNoticiasFiltradas = async (filtros) => {
-  try {
-      const response = await api.get('/noticias/filtro', { params: filtros });
-      return response.data; // Noticias filtradas
-  } catch (error) {
-      console.error('Error al filtrar noticias:', error.response?.data || error.message);
-      throw error;
-  }
+    try {
+        const response = await api.post('express/news/filtro', filtros, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        return response.data; // Noticias filtradas
+      } catch (error) {
+        console.error('Error al filtrar noticias:', error.response?.data || error.message);
+        throw error;
+      }
+};
+// Borrar el token del almacenamiento de sesión
+export const clearAuthToken = () => {
+    sessionStorage.removeItem('token');  
 };
 
 // Crear una nueva noticia
