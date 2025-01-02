@@ -32,9 +32,12 @@ export const registerUser = async (user) => {
 };
 
 // Actualizar un usuario
-export const updateUser = async (user, token) => {
+export const updateUser = async (user) => {
+    console.log("User:", user);
   try {
-      const response = await api.put('/users', user, {
+    const token = sessionStorage.getItem("token"); // Obtén el token de sessionStorage
+    if (!token) throw new Error("Token no encontrado");
+      const response = await api.put('python/users', user, {
           headers: {
               Authorization: `Bearer ${token}`,
           },
@@ -74,9 +77,11 @@ export const login = async (username, password) => {
 };
 
 // Verificar token
-export const verifyToken = async (token) => {
+export const verifyToken = async () => {
   try {
-      const response = await api.post('/verify/token', null, {
+    const token = sessionStorage.getItem("token"); // Obtén el token de sessionStorage
+    if (!token) throw new Error("Token no encontrado");
+      const response = await api.post('python/verify/token', null, {
           headers: {
               Authorization: `Bearer ${token}`,
           },
@@ -89,9 +94,11 @@ export const verifyToken = async (token) => {
 };
 
 // Obtener todos los favoritos del usuario
-export const getFavorites = async (token) => {
+export const getFavorites = async () => {
   try {
-      const response = await api.get('/favorites', {
+    const token = sessionStorage.getItem("token"); // Obtén el token de sessionStorage
+    if (!token) throw new Error("Token no encontrado");
+      const response = await api.get('python/favorites', {
           headers: {
               Authorization: `Bearer ${token}`,
           },
@@ -106,8 +113,10 @@ export const getFavorites = async (token) => {
 // Agregar un favorito
 export const addFavorite = async (categoria, token) => {
   try {
+    const token = sessionStorage.getItem("token"); // Obtén el token de sessionStorage
+    if (!token) throw new Error("Token no encontrado");
       const response = await api.post(
-          '/favorites',
+          'python/favorites',
           { categoria },
           {
               headers: {
@@ -167,6 +176,7 @@ export const getNoticias = async () => {
 // Filtrar noticias
 export const getNoticiasFiltradas = async (filtros) => {
     try {
+        console.log('Filtros:', filtros);
         const response = await api.post('express/news/filtro', filtros, {
           headers: {
             'Content-Type': 'application/json',

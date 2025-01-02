@@ -45,7 +45,21 @@ def verify_token(Authorization: str = Security(api_key_header)):
     except IndexError:
         raise HTTPException(status_code=401, detail="Invalid Authorization header format")
     
-    # Ahora decodificamos el token
-    return validate_token(token, output=True)
+    # Validar el token y obtener los datos del usuario
+    user_data = validate_token(token, output=True)
+    
+    if not isinstance(user_data, dict):
+        # Si validate_token devolvió JSONResponse, significa que hubo un error
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+
+    if "password" in user_data:
+        try:
+            # Descifrar la contraseña
+            decrypted_password = f.decrypt(user_data["password"].encode()).decode()
+            user_data["password"] = decrypted_password
+        except Exception as e:
+            raise HTTPException(status_code=500, detail="Error decrypting password")
+    
+    return user_data
 
 

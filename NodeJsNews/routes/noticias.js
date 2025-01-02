@@ -18,13 +18,13 @@ router.post('/importar', async (req, res) => {
         // Guardar las noticias en la base de datos
         for (const noticia of noticias) {
             const noticiaCompleta = {
-                titulo: noticia.title,  
-                categoria: categoria,
-                idioma: idioma, 
-                fuente: noticia.source.name,
-                autor: noticia.author,
-                fecha: noticia.publishedAt,
-                url: noticia.url  
+                titulo: noticia.title || 'Sin título',  
+                categoria: categoria || 'Sin categoría',
+                idioma: idioma || 'Sin idioma', 
+                fuente: noticia.source.name || 'Sin fuente',
+                autor: noticia.author || 'Autor anonimo',
+                fecha: noticia.publishedAt || new Date().toISOString(),
+                url: noticia.url || 'URL no disponible' 
             }
             const existe = await Noticia.findOne({ url: noticia.url });
             if (!existe) {

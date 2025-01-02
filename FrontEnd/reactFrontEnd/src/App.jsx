@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import MainPage from './pages/MainPage';
+import PerfilPage from './pages/PerfilPage';
 import FavoritesPage from './pages/FavoritesPage';
 import ScrollToTop from './components/ScrollToTop';
 
@@ -14,6 +15,7 @@ const router = createBrowserRouter(
       <Route path='/register' element={<ScrollToTop><RegisterPage /></ScrollToTop>}/>
       <Route path='/home' element={<HomePage />}/>
       <Route path='/favorites' element={<FavoritesPage />}/>
+      <Route path='/perfil' element={<PerfilPage />}/>
     </>
       
   )
