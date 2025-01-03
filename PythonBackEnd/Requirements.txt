@@ -1,2 +1,9 @@
-pip install fastapi
-pip install sqlalchemy
+fastapi
+python-dotenv
+cryptography
+PyJWT
+SQLAlchemy
+pymysql
+authlib
+uvicorn
+httpx

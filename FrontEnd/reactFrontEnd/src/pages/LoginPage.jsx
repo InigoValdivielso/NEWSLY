@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Importar useNavigate
-import logoGoogle from "../assets/images/googleLogo.png";
 import "../styles/LoginPage.css";
 import { login } from "../services/api.jsx"; // Importar la función login desde api.jsx
 
@@ -32,10 +31,6 @@ export default function LoginPage() {
     }
   };
 
-  const handleGoogleLogin = () => {
-    console.log("Iniciar sesión con Google");
-    // Aquí iría la lógica para manejar el inicio de sesión con Google
-  };
 
   return (
     <div className="login-page">
@@ -92,17 +87,7 @@ export default function LoginPage() {
                 Iniciar Sesión
               </button>
             </form>
-            <button
-              onClick={handleGoogleLogin}
-              className="btn btn-dark w-100 mb-3 mt-3 d-flex align-items-center justify-content-center"
-            >
-              <img
-                src={logoGoogle}
-                alt="Google"
-                style={{ width: "20px", marginRight: "8px" }}
-              />
-              Iniciar sesión con Google
-            </button>
+      
           </div>
           <div
             className="card-footer text-center"

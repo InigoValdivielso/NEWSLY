@@ -15,7 +15,7 @@ db.once('open', () => console.log('Connected to database'))
 
 app.use(express.json())
 app.use(cors({
-    origin: 'http://localhost:5173', // Cambia esto a la URL de tu frontend
+    origin: 'http://localhost:5173', 
     methods: ['GET', 'POST'],
   }));
   

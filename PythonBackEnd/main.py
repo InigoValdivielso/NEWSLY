@@ -38,15 +38,7 @@ app.add_middleware(
     allow_headers=["*"],  # Permite todos los encabezados
 )
 oauth = OAuth()
-oauth.register(
-    name="google",
-    client_id= "CLIENT_ID",
-    client_secret= "CLIENT_SECRET",
-    server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
-    client_kwargs={
-        "scope": "openid profile email",
-        "redirect_url": "http://localhost:8000/auth"}
-)
+
 
 load_dotenv()
 
